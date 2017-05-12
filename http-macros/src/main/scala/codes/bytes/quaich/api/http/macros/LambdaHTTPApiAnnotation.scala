@@ -63,6 +63,7 @@ object LambdaHTTPApi {
 
 
         val cls = q"""
+        @LambdaHTTPApiInternal
         class $name[..$tparams] extends codes.bytes.quaich.api.http.HTTPApp {
           def newHandler: codes.bytes.quaich.api.http.HTTPHandler =
             ${name.asInstanceOf[TypeName].toTermName}
@@ -93,4 +94,8 @@ class LambdaHTTPApi extends StaticAnnotation {
   def macroTransform(annottees: Any*): Any = macro LambdaHTTPApi.annotation_impl
 
 }
-// vim: set ts=2 sw=2 sts=2 et:
+
+/**
+  * Internal annotation used for automatic finding out of handler classes.
+  */
+class LambdaHTTPApiInternal extends StaticAnnotation

@@ -115,8 +115,8 @@ lazy val demo = (project in file("demo")).
     createAutomatically := true,
 
     lambdaName := "quaich-http-demo",
-    handlerName := "codes.bytes.quaich.demo.http.DemoHTTPServer::handleRequest",
     awsLambdaMemory := 192,
+    awsLambdaTimeout := 30,
     region := "eu-west-1",
 
     publishArtifact in (Compile, packageDoc) := false
