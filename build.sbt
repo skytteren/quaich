@@ -2,7 +2,7 @@ import sbt.Keys.publishTo
 
 name := "quaich"
 
-val projectVersion        = "0.0.2-SNAPSHOT"
+val projectVersion        = "0.0.3-SNAPSHOT"
 val projectOrg            = "codes.bytes"
 
 val json4sVersion         = "3.5.0.RC1"
