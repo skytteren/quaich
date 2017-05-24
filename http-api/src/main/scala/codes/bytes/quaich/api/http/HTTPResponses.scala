@@ -17,15 +17,12 @@
 
 package codes.bytes.quaich.api.http
 
-import org.json4s._
-
 import scala.language.implicitConversions
 
 trait HTTPResponses {
 
-  trait HTTPResponseMagnet {
+  trait HTTPResponseMagnet extends ResponseMagnet {
     type Result = LambdaHTTPResponse
-    def apply(): Result
   }
 
   final case class LambdaHTTPResponse(

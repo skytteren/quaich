@@ -37,11 +37,7 @@ trait HTTPHandler {
     }
   }
 
-  def complete(magnet: HTTPResponseMagnet): magnet.Result = magnet()
-
   def addRoute(method: HTTPMethod, route: String, handler: HTTPRoute[_]): Unit = {
     routeBuilder += (method → route) → handler
   }
 }
-
-// vim: set ts=2 sw=2 sts=2 et:

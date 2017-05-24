@@ -17,11 +17,11 @@
 
 package codes.bytes.quaich.api
 
-package object http extends HTTPResponses with HTTPResponseMarshallers {
+import codes.bytes.quaich.CoreLambdaApi
+
+package object http extends CoreLambdaApi with HTTPResponses with HTTPResponseMarshallers {
 
   import org.json4s._
-
-  import com.amazonaws.services.lambda.runtime.{ClientContext, CognitoIdentity, Context, LambdaLogger}
 
   object HTTPMethod {
     def apply(method: String): HTTPMethod = method match {
@@ -87,29 +87,4 @@ package object http extends HTTPResponses with HTTPResponseMarshallers {
     httpMethod: String,
     apiId: String
   )
-
-  class LambdaContext(ctx: Context) {
-    def identity: Option[CognitoIdentity] = Option(ctx.getIdentity)
-
-    def clientContext: Option[ClientContext] = Option(ctx.getClientContext)
-
-    lazy val logger: LambdaLogger = ctx.getLogger
-
-    def log(msg: => String) = logger.log(msg)
-
-    def memoryLimitInMB: Int = ctx.getMemoryLimitInMB
-
-    def remainingTimeInMillis: Int = ctx.getRemainingTimeInMillis
-
-    def awsRequestId: String = ctx.getAwsRequestId
-
-    def functionName: String = ctx.getFunctionName
-
-    def logGroupName: Option[String] = Option(ctx.getLogGroupName)
-
-    def logStreamName: Option[String] = Option(ctx.getLogStreamName)
-  }
-
 }
-
-// vim: set ts=2 sw=2 sts=2 et

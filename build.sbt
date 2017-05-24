@@ -97,7 +97,7 @@ lazy val httpMacros = (project in file("http-macros")).
   settings(
     name := "quaich-http-macros"
   ).
-  dependsOn(httpApi)
+  dependsOn(httpApi, api)
 
 lazy val http = (project in file("http")).
   settings(commonSettings: _*).
