@@ -13,4 +13,9 @@ addSbtPlugin("com.dancingrobot84" % "sbt-idea-plugin" % "0.4.0")
 addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")
 //addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.0")
 
-addSbtPlugin("codes.bytes" % "sbt-quartercask-lambda" % "0.0.3-SNAPSHOT")
+addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.8.2")
+
+val quartercaskVersion = "0.0.4-SNAPSHOT"
+
+addSbtPlugin("codes.bytes" % "sbt-quartercask-lambda" % quartercaskVersion)
+addSbtPlugin("codes.bytes" % "sbt-quartercask-api-gateway" % quartercaskVersion)

@@ -1,8 +1,8 @@
-import sbt.Keys.publishTo
+import sbt.Keys.{libraryDependencies, publishTo}
 
 name := "quaich"
 
-val projectVersion        = "0.0.3-SNAPSHOT"
+val projectVersion        = "0.0.4-SNAPSHOT"
 val projectOrg            = "codes.bytes"
 
 val json4sVersion         = "3.5.0.RC1"
@@ -18,6 +18,7 @@ lazy val commonSettings = Seq(
   version := projectVersion,
   scalaVersion := "2.12.2",
   retrieveManaged := true,
+
   libraryDependencies ++= Seq(
     "org.scalactic" %% "scalactic" % "3.0.0",
     "org.scalatest" %% "scalatest" % "3.0.0" % "test",
@@ -37,7 +38,6 @@ lazy val commonSettings = Seq(
   bintrayOrganization := Some("quaich"),
   licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 )
-
 
 lazy val macroSettings = Seq(
   libraryDependencies ++= Seq(
@@ -122,7 +122,7 @@ lazy val demo = (project in file("demo")).
     publishArtifact in (Compile, packageDoc) := false
   ).
   dependsOn(http).
-  enablePlugins(AWSLambdaPlugin)
+  enablePlugins(AWSLambdaPlugin, AwsApiGatewayPlugin)
 
 lazy val httpMetadataPlugin = (project in file("http-metadata-plugin")).
   settings(commonSettings: _*).

@@ -17,27 +17,41 @@
 
 package codes.bytes.quaich.api.http
 
-import codes.bytes.quaich.api.http.routing.HTTPRoute
+import codes.bytes.quaich.api.http.routing.{HTTPRoute, RouteRequest}
 
 
 trait HTTPHandler {
 
-  protected val ViewArgsRE = """\{[\w0-9_\-+]+\}""".r
+  protected val routeBuilder = Map.newBuilder[(HTTPMethod, String), HTTPRoute[_]]
 
-  protected val routeBuilder =
-    Map.newBuilder[(HTTPMethod, String), HTTPRoute[_]]
 
   lazy val routes = routeBuilder.result
 
   def routeRequest(request: LambdaHTTPRequest, context: LambdaContext): LambdaHTTPResponse = {
-    routes.get(HTTPMethod(request.httpMethod) → request.resource) match {
-      case Some(handler) ⇒ handler(LambdaRequestContext(request, context))
+    handlerByResource(request)
+      .orElse(handlerByPath(request)) match {
+      case Some(RouteRequest(handler, request)) => handler(LambdaRequestContext(request, context))
       case None ⇒ LambdaHTTPResponse(statusCode = 404)
-
     }
   }
 
   def addRoute(method: HTTPMethod, route: String, handler: HTTPRoute[_]): Unit = {
-    routeBuilder += (method → route) → handler
+    routeBuilder += (method -> route) -> handler
+  }
+
+  private def handlerByResource(request: LambdaHTTPRequest): Option[RouteRequest[_]] = {
+    routes
+      .get(HTTPMethod(request.httpMethod) -> request.resource)
+      .map { route =>
+        RouteRequest(route, request)
+      }
+  }
+
+  private def handlerByPath(request: LambdaHTTPRequest): Option[RouteRequest[_]] = {
+    routes
+      .get(HTTPMethod(request.httpMethod) -> request.path)
+      .map { route =>
+        RouteRequest(route, request)
+      }
   }
 }

@@ -23,33 +23,31 @@ import codes.bytes.quaich.demo.http.model.TestObject
 
 @LambdaHTTPApi
 class DemoHTTPServer {
-
-  // this thing works!
-  get("/quaich-http-demo/hello") { requestContext =>
-    complete("Awesome. First small success! Version: 0.0.3")
+  get("/hello") { requestContext =>
+    complete("Awesome. First small success! Version: 0.0.4")
   }
 
-  get("/quaich-http-demo/users/{username}/foo/{bar}") { requestContext =>
+  get("/users/{username}/foo/{bar}") { requestContext =>
     complete("OK")
   }
 
-  head("/quaich-http-demo/users/{username}/foo/{bar}") { requestContext =>
+  head("/users/{username}/foo/{bar}") { requestContext =>
     complete(HTTPStatus.OK)
   }
 
-  options("/quaich-http-demo/users/{username}/foo/{bar}") { requestContext =>
+  options("/users/{username}/foo/{bar}") { requestContext =>
     complete(HTTPStatus.ImATeapot)
   }
 
-  delete("/quaich-http-demo/users/{username}/foo/{bar}") { requestContext =>
+  delete("/users/{username}/foo/{bar}") { requestContext =>
     complete("OK")
   }
 
-  postX[TestObject]("/quaich-http-demo/users/{username}/foo/{bar}") { (requestWithBody: LambdaRequestBody[TestObject], username: String, bar: String) =>
+  postX[TestObject]("/users/{username}/foo/{bar}") { (requestWithBody: LambdaRequestBody[TestObject], username: String, bar: String) =>
     complete((HTTPStatus.Created, s"Created user $username."))
   }
 
-  post[TestObject]("/quaich-http-demo/users/{username}") { requestWithBody =>
+  post[TestObject]("/users/{username}") { requestWithBody =>
     requestWithBody.request.pathParameters.get("username") match {
       case Some(user) ⇒
         // create user in database blah blah blah
@@ -59,13 +57,13 @@ class DemoHTTPServer {
     }
   }
 
-  put[TestObject]("/quaich-http-demo/users/{username}/foo/{bar}") { requestWithBody =>
+  put[TestObject]("/users/{username}/foo/{bar}") { requestWithBody =>
     println(s"Put Body: ${requestWithBody.body} Path Parameters: ${requestWithBody.request.pathParameters}")
     val response = TestObject("OMG", "WTF")
     complete(response)
   }
 
-  patch[TestObject]("/quaich-http-demo/users/{username}/foo/{bar}") { body ⇒
+  patch[TestObject]("/users/{username}/foo/{bar}") { body ⇒
     println(s"Patch Body: $body")
     complete("OK")
   }
