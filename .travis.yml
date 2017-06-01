@@ -10,12 +10,22 @@ branches:
     - master
     - dev
 
+# make sure sbt quartercask is build with master version
 before_install:
   - git clone http://github.com/pdolega/quartercask ~/builds/quartercask
   - pushd ~/builds/quartercask
   - sbt compile publishLocal
   - popd
   - rm -rf ~/builds/quartercask
+
+# build with coverage
+script:
+  - sbt clean coverage test coverageReport &&
+    sbt coverageAggregate
+
+# coveralls integration
+after_success:
+  - sbt coveralls
 
 # Use container-based infrastructure
 sudo: false

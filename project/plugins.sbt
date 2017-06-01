@@ -15,6 +15,9 @@ addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")
 
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.8.2")
 
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.0")
+addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.1.0")
+
 val quartercaskVersion = "0.0.4-SNAPSHOT"
 
 addSbtPlugin("codes.bytes" % "sbt-quartercask-lambda" % quartercaskVersion)

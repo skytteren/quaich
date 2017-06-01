@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/quaich-serverless/quaich.svg)](https://travis-ci.org/quaich-serverless/quaich)
+[![Coverage Status](https://coveralls.io/repos/github/quaich-serverless/quaich/badge.svg)](https://coveralls.io/github/quaich-serverless/quaich)
 
 # quaich
 
