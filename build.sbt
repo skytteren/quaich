@@ -5,8 +5,6 @@ name := "quaich"
 val projectVersion        = "0.0.4-SNAPSHOT"
 val projectOrg            = "codes.bytes"
 
-val json4sVersion         = "3.5.0.RC1"
-val commonsIOVersion      = "2.4"
 val awsLambdaVersion      = "1.1.0"
 val awsLambdaEventsVer    = "1.3.0"
 val awsLambdaLog4jVer     = "1.0.0"
@@ -21,9 +19,12 @@ lazy val commonSettings = Seq(
 
   libraryDependencies ++= Seq(
     "org.scalactic" %% "scalactic" % "3.0.0",
-    "org.scalatest" %% "scalatest" % "3.0.0" % "test",
-    "org.json4s" %% "json4s-jackson" % json4sVersion,
-    "commons-io" % "commons-io" % commonsIOVersion
+    "org.json4s" %% "json4s-jackson" % "3.5.0.RC1",
+    "commons-io" % "commons-io" % "2.4",
+
+    "ch.qos.logback" % "logback-classic" % "1.1.7" % Test,
+    "org.scalatest" %% "scalatest" % "3.0.0" % Test,
+    "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0" % Test
   ),
   scalacOptions := Seq(
     "-encoding",

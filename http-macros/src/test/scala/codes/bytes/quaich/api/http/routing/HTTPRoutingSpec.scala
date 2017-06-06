@@ -216,8 +216,8 @@ class HTTPRoutingSpec extends WordSpec with MustMatchers {
         'statusCode (200),
         'body (None)
       )
-
     }
+
     "allow a magnet response of a case class" in {
       val input = sampleRequestPut
       val json = parse(input)

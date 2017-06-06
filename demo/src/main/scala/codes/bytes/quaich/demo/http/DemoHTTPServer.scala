@@ -32,7 +32,7 @@ class DemoHTTPServer {
   }
 
   head("/users/{username}/foo/{bar}") { requestContext =>
-    complete(HTTPStatus.OK)
+    complete(s"Params are: ${requestContext.request.pathParameters}")
   }
 
   options("/users/{username}/foo/{bar}") { requestContext =>

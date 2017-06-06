@@ -37,16 +37,16 @@ trait HTTPApp extends RequestStreamHandler {
   final override def handleRequest(input: InputStream, output: OutputStream, context: Context): Unit = {
 
     val ctx = new LambdaContext(context)
-    val logger: LambdaLogger = ctx.logger
+    val log = ctx.log
 
     val inputString = Source.fromInputStream(input).mkString
-    logger.log(s"Passed input is:\n${inputString}")
+    log.debug(s"Passed input is:\n${inputString}")
     val json = parse(inputString)
 
     val req = json.extract[LambdaHTTPRequest]
 
     // route
-    logger.log(s"Input: ${pretty(render(json))}")
+    log.debug(s"Input: ${pretty(render(json))}")
 
     val response = newHandler.routeRequest(req, ctx)
 
@@ -54,7 +54,7 @@ trait HTTPApp extends RequestStreamHandler {
       IOUtils.write(write(response), output)
     } catch {
       case e: Exception =>
-        logger.log("Error while writing response\n" + e.getMessage)
+        log.error("Error while writing response\n" + e.getMessage)
         throw new IllegalStateException(e)
     }
   }
