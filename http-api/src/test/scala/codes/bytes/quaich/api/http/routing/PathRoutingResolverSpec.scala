@@ -39,6 +39,20 @@ class PathRoutingResolverSpec extends WordSpec with MustMatchers with LazyLoggin
 
       result must be(empty)
     }
+
+    "two simple mappings for GET" in {
+      val resolver = new PathRoutingResolver()
+      resolver
+        .bindPath("/hello", MethodRoute("GET", fabricateGetRoute("simplePath1")))
+        .bindPath("/another", MethodRoute("GET", fabricateGetRoute("simplePath2")))
+
+      val req = fabricateRequest("/{path+}", "/hello", "GET")
+
+      val Some(RouteRequest(route, request)) = resolver.resolveRequestRoute(req)
+
+      route(LambdaRequestContext(request, null)).body must be(Some("simplePath1"))
+      request.pathParameters must be(Map.empty)
+    }
   }
 
   "Path with parameters (dynamic)" should {

@@ -65,12 +65,12 @@ class PathRoutingResolver {
         case (Nil, Nil) =>
           true
 
-        case (chunkHead :: chunkTail, _ :: pathTail) =>
+        case (chunkHead :: chunkTail, pathHead :: pathTail) =>
           chunkHead match {
             case DynamicUrlChunk(_) =>
               matchChunked(chunkTail, pathTail)
 
-            case StaticUrlChunk(pathFragment) if pathFragment == pathFragment =>
+            case StaticUrlChunk(pathFragment) if pathFragment == pathHead =>
               matchChunked(chunkTail, pathTail)
 
             case _ =>
