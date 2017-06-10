@@ -29,7 +29,6 @@ class PathRoutingResolver {
   def resolveRequestRoute(request: LambdaHTTPRequest)(implicit log: Logger): Option[RouteRequest[_]] = {
     val startTime = System.currentTimeMillis()
 
-    val chunkedKey = mapToChunks(request.path)
     val pathParts = request.path.split("/").toList.tail
 
     val potentialMatches = routeMappings.filter {

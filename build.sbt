@@ -40,17 +40,6 @@ lazy val commonSettings = Seq(
   licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 )
 
-lazy val macroSettings = Seq(
-  libraryDependencies ++= Seq(
-    "org.scala-lang" % "scala-reflect" % scalaVersion.value
-  ),
-  addCompilerPlugin("org.scalameta" % "paradise" % metaParadiseVersion cross CrossVersion.full),
-  scalacOptions ++= Seq(
-    "-Xplugin-require:macroparadise"/*,
-    "-Ymacro-debug-lite"*/
-  )
-)
-
 lazy val root = (project in file(".")).
   settings(commonSettings: _*).
   settings(
@@ -94,11 +83,11 @@ lazy val httpApi = (project in file("http-api")).
 
 lazy val httpMacros = (project in file("http-macros")).
   settings(commonSettings: _*).
-  settings(macroSettings: _*).
+  settings(quaichMacroSettings: _*).
   settings(
     name := "quaich-http-macros"
   ).
-  dependsOn(httpApi, api)
+  dependsOn(httpApi, api, api % "test->test")
 
 lazy val http = (project in file("http")).
   settings(commonSettings: _*).
@@ -110,7 +99,7 @@ lazy val http = (project in file("http")).
 
 lazy val demo = (project in file("demo")).
   settings(commonSettings: _*).
-  settings(macroSettings: _*).
+  settings(quaichMacroSettings: _*).
   settings(
     name := "quaich-demo",
     createAutomatically := true,

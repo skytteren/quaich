@@ -28,6 +28,7 @@ import org.json4s.jackson.Serialization._
 import org.json4s.{NoTypeHints, _}
 
 import scala.io.Source
+import scala.util.Try
 
 trait HTTPApp extends RequestStreamHandler {
 
@@ -46,17 +47,18 @@ trait HTTPApp extends RequestStreamHandler {
 
     val req = json.extract[LambdaHTTPRequest]
 
-    // route
     log.debug(s"Input: ${pretty(render(json))}")
 
     val response = newHandler.routeRequest(req, ctx)
 
-    try {
-      IOUtils.write(write(response), output)
-    } catch {
+    Try {
+      val responseString = write(response)
+      IOUtils.write(responseString, output)
+      log.debug(s"Response: ${responseString}")
+    }.recover {
       case e: Exception =>
         log.error("Error while writing response\n" + e.getMessage)
         throw new IllegalStateException(e)
-    }
+    }.get
   }
 }
