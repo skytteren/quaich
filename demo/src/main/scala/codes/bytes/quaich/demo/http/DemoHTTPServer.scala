@@ -35,36 +35,14 @@ class DemoHTTPServer {
     complete(s"Params are: ${requestContext.request.pathParameters}")
   }
 
-  options("/users/{username}/foo/{bar}") { requestContext =>
-    complete(HTTPStatus.ImATeapot)
-  }
-
-  delete("/users/{username}/foo/{bar}") { requestContext =>
-    complete("OK")
-  }
-
-  postX[TestObject]("/users/{username}/foo/{bar}") { (requestWithBody: LambdaRequestBody[TestObject], username: String, bar: String) =>
-    complete((HTTPStatus.Created, s"Created user $username."))
-  }
-
-  post[TestObject]("/users/{username}") { requestWithBody =>
-    requestWithBody.request.pathParameters.get("username") match {
-      case Some(user) ⇒
-        // create user in database blah blah blah
-        complete((HTTPStatus.Created, s"Created user $user."))
-      case None ⇒
-        complete(HTTPStatus.BadRequest)
-    }
-  }
-
   put[TestObject]("/users/{username}/foo/{bar}") { requestWithBody =>
-    println(s"Put Body: ${requestWithBody.body} Path Parameters: ${requestWithBody.request.pathParameters}")
+    println(s"Put Body: ${requestWithBody.request.body} Path Parameters: ${requestWithBody.request.pathParameters}")
     val response = TestObject("OMG", "WTF")
     complete(response)
   }
 
-  patch[TestObject]("/users/{username}/foo/{bar}") { body ⇒
-    println(s"Patch Body: $body")
+  patch[TestObject]("/users/{username}/foo/{bar}") { requestContext =>
+    println(s"Patch request: $requestContext")
     complete("OK")
   }
 }

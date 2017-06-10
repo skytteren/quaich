@@ -144,7 +144,7 @@ class PathRoutingResolverSpec extends WordSpec with MustMatchers with LazyLoggin
         CognitoData(None, "xxxx", None, "api", "key", "source", None, None, "xxxx", "xxxx"),
         resource, method, path
       ),
-      JObject()
+      None
     )
   }
 

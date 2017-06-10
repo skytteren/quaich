@@ -20,9 +20,8 @@ package codes.bytes.quaich.api.http
 package object macros {
 
   type RouteBlockWithParams = LambdaRequestContext ⇒ LambdaHTTPResponse
-  type RouteBlockWithBodyParams[T] = LambdaRequestBody[T] ⇒ LambdaHTTPResponse
 
-  type RouteXBlockWithBodyParams[T] = (LambdaRequestBody[T], String*) ⇒ LambdaHTTPResponse
+  type RouteXBlockWithBodyParams[T] = (LambdaRequestContext, String*) ⇒ LambdaHTTPResponse
 
   type RouteBlock[T <: Product] =  T ⇒ LambdaHTTPResponse
   type RouteXBlock[T <: Product] =  (T, String*) ⇒ LambdaHTTPResponse
@@ -108,8 +107,8 @@ package object macros {
     val obj = q"""
     val handler = new codes.bytes.quaich.api.http.routing.HTTPPostRoute[$tpe] {
       def apply(requestContext: LambdaRequestContext): LambdaHTTPResponse = {
-        val body = requestContext.request.body.extract[$tpe]
-        $block(requestContext.withBody(body))
+
+        $block(requestContext)
       }
     }
 
@@ -119,9 +118,10 @@ package object macros {
     c.Expr[Any](obj)
   }
 
-  def post[T <: Product](route: String)(block: RouteBlockWithBodyParams[T]): Any = macro post_impl[T]
+  def post[T](route: String)(block: RouteBlockWithParams): Any = macro post_impl[T]
 
-  def post_impl[T <: Product : c.WeakTypeTag](c: scala.reflect.macros.whitebox.Context)(route: c.Expr[String])(block: c.Expr[RouteBlockWithBodyParams[T]]): c.Expr[Any] = {
+  def post_impl[T : c.WeakTypeTag](c: scala.reflect.macros.whitebox.Context)(route: c.Expr[String])
+                                             (block: c.Expr[RouteBlockWithParams]): c.Expr[Any] = {
     import c.universe._
 
     val tpe = weakTypeOf[T]
@@ -132,8 +132,7 @@ package object macros {
     val obj = q"""
     val handler = new codes.bytes.quaich.api.http.routing.HTTPPostRoute[$tpe] {
       def apply(requestContext: LambdaRequestContext): LambdaHTTPResponse = {
-        val body = requestContext.request.body.extract[$tpe]
-        $block(requestContext.withBody(body))
+        $block(requestContext)
       }
     }
 
@@ -143,9 +142,10 @@ package object macros {
     c.Expr[Any](obj)
   }
 
-  def put[T <: Product](route: String)(block: RouteBlockWithBodyParams[T]): Any = macro put_impl[T]
+  def put[T <: Product](route: String)(block: RouteBlockWithParams): Any = macro put_impl[T]
 
-  def put_impl[T <: Product : c.WeakTypeTag](c: scala.reflect.macros.whitebox.Context)(route: c.Expr[String])(block: c.Expr[RouteBlockWithBodyParams[T]]): c.Expr[Any] = {
+  def put_impl[T <: Product : c.WeakTypeTag](c: scala.reflect.macros.whitebox.Context)(route: c.Expr[String])
+                                            (block: c.Expr[RouteBlockWithParams]): c.Expr[Any] = {
     import c.universe._
 
     val tpe = weakTypeOf[T]
@@ -156,8 +156,7 @@ package object macros {
     val obj = q"""
     val handler = new codes.bytes.quaich.api.http.routing.HTTPPutRoute[$tpe] {
       def apply(requestContext: LambdaRequestContext): LambdaHTTPResponse = {
-        val body = requestContext.request.body.extract[$tpe]
-        $block(requestContext.withBody(body))
+        $block(requestContext)
       }
     }
 
@@ -215,9 +214,10 @@ package object macros {
     c.Expr[Any](obj)
   }
 
-  def patch[T <: Product](route: String)(block: RouteBlockWithBodyParams[T]): Any = macro patch_impl[T]
+  def patch[T <: Product](route: String)(block: RouteBlockWithParams): Any = macro patch_impl[T]
 
-  def patch_impl[T <: Product : c.WeakTypeTag](c: scala.reflect.macros.whitebox.Context)(route: c.Expr[String])(block: c.Expr[RouteBlockWithBodyParams[T]]): c.Expr[Any] = {
+  def patch_impl[T <: Product : c.WeakTypeTag](c: scala.reflect.macros.whitebox.Context)(route: c.Expr[String])
+                                              (block: c.Expr[RouteBlockWithParams]): c.Expr[Any] = {
     import c.universe._
 
     val tpe = weakTypeOf[T]
@@ -228,8 +228,7 @@ package object macros {
     val obj = q"""
     val handler = new codes.bytes.quaich.api.http.routing.HTTPPostRoute[$tpe] {
       def apply(requestContext: LambdaRequestContext): LambdaHTTPResponse = {
-        val body = requestContext.request.body.extract[$tpe]
-        $block(requestContext.withBody(body))
+        $block(requestContext)
       }
     }
 

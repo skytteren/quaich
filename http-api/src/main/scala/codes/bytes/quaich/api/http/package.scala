@@ -46,18 +46,14 @@ package object http extends CoreLambdaApi with HTTPResponses with HTTPResponseMa
   case object OPTIONS extends HTTPMethod
   case object PATCH extends HTTPMethod
 
-  case class LambdaRequestContext(request: LambdaHTTPRequest, context: LambdaContext) {
-    def withBody[T](body: T): LambdaRequestBody[T] = LambdaRequestBody(request, context,body)
-  }
-
-  case class LambdaRequestBody[T](request: LambdaHTTPRequest, context: LambdaContext, body: T)
+  case class LambdaRequestContext(request: LambdaHTTPRequest, context: LambdaContext)
 
   case class LambdaHTTPRequest(
     resource: String,
     path: String, // todo - wire into an object that can extract vars
     httpMethod: String, // todo - in place validation
     requestContext: LambdaHTTPRequestContext,
-    body: JObject,
+    body: Option[String],
     headers: Map[String, String] = Map.empty,
     queryStringParameters: Map[String, String] = Map.empty,
     pathParameters: Map[String, String] = Map.empty,

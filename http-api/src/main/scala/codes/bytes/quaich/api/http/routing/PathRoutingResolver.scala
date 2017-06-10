@@ -76,6 +76,12 @@ class PathRoutingResolver {
             case _ =>
               false
           }
+
+        case (_, _) =>
+          assert(false,
+            s"This shouldn't happen - apparently we have proposed route (${chunks.mkString("/")}) and " +
+            s"actual path (${pathParts.mkString("/")}) of different length")
+          false
       }
     } else {
       false
@@ -115,6 +121,13 @@ class PathRoutingResolver {
 
       case (DynamicUrlChunk(paramName) :: chunkedTail, pathHead :: pathTail) =>
         construct(chunkedTail, pathTail, params + (paramName -> pathHead))
+
+      case (_, _) =>
+        assert(false,
+          s"This shouldn't happen - apparently we have chosen route (${chunkedPath.mkString("/")} of different length " +
+          s"than actual path (${pathParts.mkString("/")})"
+        )
+        Map.empty
     }
 
     construct(chunkedPath, pathParts, Map.empty)

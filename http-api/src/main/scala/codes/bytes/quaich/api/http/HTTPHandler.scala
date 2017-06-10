@@ -17,7 +17,7 @@
 
 package codes.bytes.quaich.api.http
 
-import codes.bytes.quaich.api.Logger
+import codes.bytes.quaich.api.{LambdaContext, Logger}
 import codes.bytes.quaich.api.http.routing.{HTTPRoute, MethodRoute, PathRoutingResolver, RouteRequest}
 
 
